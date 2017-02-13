@@ -1,0 +1,8 @@
+{
+  "replaces": [
+    {
+      "what": "[data-popup-id='firstPopup'] .popup__content",
+      "data": "<div class='popup__content'><div class='popup__title'><b>Example-2</b><br>Подпишитесь на рассылку что бы всегда быть в курсе последних событий!</div><br><form class='popup__form'><label class='form-group'><input type='text' name='userName' placeholder='Ваше имя'></label><br><label class='form-group'><input type='email' name='userEmail' placeholder='Ваш email'></label><br><label class='form-group'><input type='text' name='userKids' placeholder='Есть ли у вас дети?'></label><br><button class='popup__btn btn btn_red' type='submit'>подписаться<div class='btn__icon'></div></button></form><div class='popup__footer'><span>или звоните</span><br><a href='tel:044 593 77 87'>044 593 77 87</a></div></div>"
+    }
+  ]
+}

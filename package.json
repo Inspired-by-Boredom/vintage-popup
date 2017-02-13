@@ -1,0 +1,35 @@
+{
+  "name": "vintage-popup",
+  "version": "0.1.1",
+  "description": "Vintage popup window plugin",
+  "main": "src/vintage-popup.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vintage-web-production/vintage-popup.git"
+  },
+  "keywords": [
+    "Vintage",
+    "popup",
+    "modal",
+    "modal remote",
+    "popup window",
+    "popup remote",
+    "jquery plugin",
+    "jquery modal"
+  ],
+  "author": "Vintage",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vintage-web-production/vintage-popup/issues"
+  },
+  "homepage": "https://github.com/Vintage-web-production/vintage-popup#readme",
+  "dependencies": {
+    "jquery": "^3.1.1"
+  }
+}
