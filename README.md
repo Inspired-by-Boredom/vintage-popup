@@ -358,7 +358,7 @@ Popup.kill(popup);
  * @static
  * @param {String} [openedClass='opened'] - opened popup class indicator
  */
-Popup.closeAllPopup(openedClass);
+Popup.closeAllPopups(openedClass);
 
 /**
  * Initialize popup/popups with specified options.
