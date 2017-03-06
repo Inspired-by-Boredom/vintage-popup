@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Popup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="theme-color" content="#81d7c4">
+    <link href="example/static/css/example.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="dist/vintage-popup.min.css">
+    <link rel="stylesheet" href="dist/popup-default-theme.min.css">
+    <link rel="icon" type="image/x-icon" href="example/favicon.ico">
+</head>
+
+<body class="page">
+
+<div class="content">
+    <div class="first-screen">
+        <div class="first-screen-block">
+            <div class="container">
+                <h1>Popup</h1>
+                <span>JAVASCRIPT MODAL WINDOW FOR EVERY BROWSER*</span>
+                <div class="btn-block">
+                    <a href="https://www.npmjs.com/package/vintage-popup" class="btn">npm</a>
+                    <a href="https://github.com/Vintage-web-production/vintage-popup#vintage-popup" class="btn">guide</a>
+                    <div class="btn" data-popup-target="demoPopup">demo</div>
+                </div>
+                <p>*"Every browser" being IE 9+, Firefox 22+, Chrome 5+, Safari 6+, Opera 25+,
+                    Android Browser 4.4+, Blackberry Browser 10+, Opera Mobile 37+,
+                    Firefox Android 47+.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popup -->
+<div class="popup" tabindex="-1" role="dialog" data-popup-id="demoPopup">
+    <div class="popup__container">
+        <div class="popup__close"><span></span><span></span></div>
+        <div class="popup__content">
+            <span>Default popup<br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et sem tellus. Sed eget odio posuere, dictum elit lacinia, porttitor justo. Praesent id pulvinar ante. Aliquam molestie cursus diam eget molestie. In hac habitasse platea dictumst. In scelerisque nunc vitae risus maximus, et elementum neque faucibus. Aenean lorem sem, rhoncus vel pellentesque nec, blandit quis risus. Praesent tempus porttitor dui, sed convallis est imperdiet eu. Morbi viverra ex nec mauris molestie, eget pellentesque felis dictum. In vitae nisi eu dui mattis lobortis. Duis ultrices lectus placerat hasellus a lectus ligula. Mauris hendrerit purus sit amet lobortis eleifend. Aliquam tellus orci, fringilla sit amet nisl rhoncus, elementum elementum augue. Praesent quis mi at quam faucibus euismod.</span>
+            <br><br>
+            <a href="#">Link</a>
+        </div>
+    </div>
+</div>
+
+<!-- Dependencies -->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="dist/vintage-popup.min.js"></script>
+
+<!-- Initialize popup -->
+<script>Popup.initialize();</script>
+</body>
+
+</html>
