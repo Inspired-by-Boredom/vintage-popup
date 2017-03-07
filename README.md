@@ -2,12 +2,27 @@
 
 Vintage popup window plugin
 
+## Overview
+
+* [Installation](https://github.com/Vintage-web-production/vintage-popup#installation)
+* [Initialization](https://github.com/Vintage-web-production/vintage-popup#initialization)
+* [Examples](https://github.com/Vintage-web-production/vintage-popup#examples)
+* [Options](https://github.com/Vintage-web-production/vintage-popup#options)
+* [Methods](https://github.com/Vintage-web-production/vintage-popup#methods)
+* [Requirement](https://github.com/Vintage-web-production/vintage-popup#requirement)
+
 ## Installation
 
-Install popup plugin
+With npm
 
 ```
 npm i -S vintage-popup
+```
+
+With yarn
+
+```
+yarn add vintage-popup
 ```
 
 Add popup to your project
