@@ -4,12 +4,12 @@ Vintage popup window plugin
 
 ## Overview
 
-* [Installation](https://github.com/Vintage-web-production/vintage-popup#installation)
-* [Initialization](https://github.com/Vintage-web-production/vintage-popup#initialization)
-* [Examples](https://github.com/Vintage-web-production/vintage-popup#examples)
-* [Options](https://github.com/Vintage-web-production/vintage-popup#options)
-* [Methods](https://github.com/Vintage-web-production/vintage-popup#methods)
-* [Requirement](https://github.com/Vintage-web-production/vintage-popup#requirement)
+* [Installation](#installation)
+* [Initialization](#initialization)
+* [Examples](#examples)
+* [Options](#options)
+* [Methods](#methods)
+* [Requirement](#requirement)
 
 ## Installation
 
