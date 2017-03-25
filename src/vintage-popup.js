@@ -1,4 +1,14 @@
+/**
+ * Popup
+ * ------------
+ * Version : 0.1.24
+ * Website : vintage-web-production.github.io/vintage-popup
+ * Repo    : github.com/Vintage-web-production/vintage-popup
+ * Author  : Shapovalov Vitali
+ */
+
 ;(function () {
+
   /**
    * Helpers.
    */
@@ -9,6 +19,9 @@
   var closeOnResizeFlag = false, closeOnEscFlag = false;
   var isDevice = function () {
     return window.matchMedia('(max-width: ' + 1199 + 'px)').matches;
+  };
+  var booleanCheck = function (param, defaultParam) {
+    return typeof param === 'boolean' ? param : defaultParam
   };
 
   /**
@@ -40,6 +53,12 @@
    * @param {*} [options.remote.data]
    */
   function Popup ($button, options) {
+
+    // support instantiation without the `new` keyword
+    if (typeof this === 'undefined' || Object.getPrototypeOf(this) !== Popup.prototype) {
+      return new Popup($button, options)
+    }
+
     options = options || {};
 
     this.options = {
@@ -49,15 +68,10 @@
       targetPopupId: options.targetPopupId || $button.data('popup-target'),
 
       eventsNameSpace: options.eventsNameSpace || 'popup',
-      closeOnBgClick: typeof options.closeOnBgClick === 'boolean'
-        ? options.closeOnBgClick
-        : true,
-      bodyFixedOnDesktop: typeof options.bodyFixedOnDesktop === 'boolean'
-        ? options.bodyFixedOnDesktop
-        : true,
-      closeOnEsc: typeof options.closeOnEsc === 'boolean'
-        ? options.closeOnEsc
-        : true,
+
+      closeOnBgClick: booleanCheck(options.closeOnBgClick, true),
+      bodyFixedOnDesktop: booleanCheck(options.bodyFixedOnDesktop, true),
+      closeOnEsc: booleanCheck(options.closeOnEsc, true),
 
       beforeOpen: options.beforeOpen,
       afterOpen: options.afterOpen,
