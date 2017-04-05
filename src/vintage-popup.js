@@ -1,7 +1,7 @@
 /**
  * Popup
  * ------------
- * Version : 0.1.24
+ * Version : 0.1.3
  * Website : vintage-web-production.github.io/vintage-popup
  * Repo    : github.com/Vintage-web-production/vintage-popup
  * Author  : Shapovalov Vitali
@@ -39,6 +39,7 @@
    * @param {Boolean} [options.closeOnBgClick=true] - If true, closes the popup by clicking anywhere outside it.
    * @param {Boolean} [options.bodyFixedOnDesktop=true] - If true, sets position: fixed to the body on desktop.
    * @param {Boolean} [options.closeOnEsc=true] - If true, closes the popup after pressing the ESC key.
+   * @param {Boolean} [options.closeOnResize=false] - If true, closes the popup on window resize.
    *
    * @param {Function} [options.beforeOpen]
    * @param {Function} [options.afterOpen]
@@ -72,6 +73,7 @@
       closeOnBgClick: booleanCheck(options.closeOnBgClick, true),
       bodyFixedOnDesktop: booleanCheck(options.bodyFixedOnDesktop, true),
       closeOnEsc: booleanCheck(options.closeOnEsc, true),
+      closeOnResize: booleanCheck(options.closeOnResize, false),
 
       beforeOpen: options.beforeOpen,
       afterOpen: options.afterOpen,
@@ -381,10 +383,11 @@
     // close popup when clicked anywhere on the black background
     if (this.options.closeOnBgClick) this.registerCloseOnBgClick();
 
-    // open popup on click (button), close on resize
-    this
-      .registerOpenOnClick()
-      .registerCloseOnResize();
+    // close popup when the size of the browser window changes
+    if (this.options.closeOnResize) this.registerCloseOnResize();
+
+    // open popup on click (button)
+    this.registerOpenOnClick();
 
     return this;
   };

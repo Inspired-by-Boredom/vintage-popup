@@ -173,6 +173,14 @@ Default: `true`
 
 If true, closes the popup after pressing the ESC key.
 
+### closeOnResize
+
+Type: `Boolean`
+
+Default: `false`
+
+If true, closes the popup when the size of the browser window changes.
+
 ### eventsNameSpace
 
 Type: `String`
@@ -391,4 +399,4 @@ Popup.initialize(selector, options);
 
 ## Versioning
 
-Current version is 0.1.24
+Current version is 0.1.3
