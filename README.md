@@ -181,6 +181,14 @@ Default: `false`
 
 If true, closes the popup when the size of the browser window changes.
 
+### openOnClick
+
+Type: `Boolean`
+
+Default: `true`
+
+Open popup when clicking on element.
+
 ### eventsNameSpace
 
 Type: `String`
@@ -391,6 +399,16 @@ Popup.closeAllPopups(openedClass);
  * @param {Object} [options]
  */
 Popup.initialize(selector, options);
+
+/**
+ * Expose popup module as jquery plugin.
+ * Use before initialazing popup.
+ * (fixes jquery conflict when using webpack's "import")
+ *
+ * @static
+ * @param {jQuery} jQuery
+ */
+ Popup.expose($);
 ```
 
 ## Requirement
@@ -399,4 +417,4 @@ Popup.initialize(selector, options);
 
 ## Versioning
 
-Current version is 0.1.3
+Current version is 0.1.4

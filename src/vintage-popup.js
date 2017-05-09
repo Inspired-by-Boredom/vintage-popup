@@ -40,6 +40,7 @@
    * @param {Boolean} [options.bodyFixedOnDesktop=true] - If true, sets position: fixed to the body on desktop.
    * @param {Boolean} [options.closeOnEsc=true] - If true, closes the popup after pressing the ESC key.
    * @param {Boolean} [options.closeOnResize=false] - If true, closes the popup on window resize.
+   * @param {Boolean} [options.openOnClick=true] - If true, opens popup on click.
    *
    * @param {Function} [options.beforeOpen]
    * @param {Function} [options.afterOpen]
@@ -74,6 +75,7 @@
       bodyFixedOnDesktop: booleanCheck(options.bodyFixedOnDesktop, true),
       closeOnEsc: booleanCheck(options.closeOnEsc, true),
       closeOnResize: booleanCheck(options.closeOnResize, false),
+      openOnClick: booleanCheck(options.openOnClick, true),
 
       beforeOpen: options.beforeOpen,
       afterOpen: options.afterOpen,
@@ -243,13 +245,11 @@
   Popup.prototype.registerOpenOnClick = function () {
     var _this = this;
 
-    this.$button.unbind(this.defaultEvents).on(this.defaultEvents, function (e) {
-      e.preventDefault();
-
+    this.$button.unbind(this.defaultEvents).on(this.defaultEvents, function () {
       // find opened popups and close them
       _this.checkAndCloseAllPopups();
 
-      // REMOTE DATA
+      // remote data
       if (_this.remoteData) {
         var remote = _this.remoteData;
 
@@ -365,8 +365,9 @@
 
     // if popup was already activated
     if (this.$popup.data('popup')) {
-      this.registerOpenOnClick();
       this.$popup.data('popup', this);
+
+      if (this.options.openOnClick) this.registerOpenOnClick();
 
       return this;
     }
@@ -387,7 +388,7 @@
     if (this.options.closeOnResize) this.registerCloseOnResize();
 
     // open popup on click (button)
-    this.registerOpenOnClick();
+    if (this.options.openOnClick) this.registerOpenOnClick();
 
     return this;
   };
@@ -443,9 +444,10 @@
 
     selector = selector || defaultSelector;
 
-    var isJQuery = selector instanceof jQuery;
     var isString = typeof selector === 'string';
     var isObject = typeof selector === 'object';
+    var isJQuery =
+      selector instanceof jQuery || isObject && selector.selector;
 
     if (!isString && !isJQuery && isObject) {
       options = selector;
@@ -453,6 +455,25 @@
     }
 
     return $(selector).popup(options);
+  };
+
+  /**
+   * Expose popup module as jquery plugin.
+   *
+   * @static
+   * @param {jQuery} jQuery
+   */
+  var exposePopup = Popup.expose = function (newJquery) {
+    // refresh jquery itself
+    $ = newJquery;
+
+    // refresh jquery plugin
+    $.fn.popup = function (options) {
+      return this.each(function () {
+        var $this = $(this);
+        new Popup($this, options);
+      });
+    };
   };
 
   /**
@@ -472,10 +493,5 @@
   /**
    * Expose Popup module.
    */
-  $.fn.popup = function (options) {
-    return this.each(function () {
-      var $this = $(this);
-      new Popup($this, options);
-    });
-  };
+  exposePopup($);
 })();
