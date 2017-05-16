@@ -417,4 +417,4 @@ Popup.initialize(selector, options);
 
 ## Versioning
 
-Current version is 0.1.4
+Current version is 0.1.41

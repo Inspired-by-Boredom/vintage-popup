@@ -23,6 +23,12 @@
   var booleanCheck = function (param, defaultParam) {
     return typeof param === 'boolean' ? param : defaultParam
   };
+  var refreshJqueryHelpers = function ($) {
+    $window = $(window);
+    $document = $(document);
+    $body = $('body');
+    $htmlbody = $('html, body');
+  };
 
   /**
    * Popup module.
@@ -474,6 +480,9 @@
         new Popup($this, options);
       });
     };
+
+    // refresh jquery helpers
+    refreshJqueryHelpers($);
   };
 
   /**
