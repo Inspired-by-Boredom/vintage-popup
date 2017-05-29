@@ -87,7 +87,7 @@ $('button').popup();
 
 ## Examples
 
-## Default popup
+### Default popup
 
 ```html
 <!-- Button that triggers modal -->
@@ -107,7 +107,7 @@ $('button').popup();
 </div>
 ```
 
-## Popup with remote data source
+### Popup with remote data source
 
 ```html
 <!-- Button that triggers modal -->
