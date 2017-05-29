@@ -60,39 +60,29 @@ Include CSS file
 
 ## Initialization
 
-### There are several ways to initialize popup module.
+### Default initialization
 
 ```javascript
-// Initialize popup on the elements with 'data-popup-target' attribute.
-Popup.initialize();
+// initialize popup
+$('button').popup();
 
-// Initialize popup on the elements with 'data-popup-target' attribute
-// and change some options for example.
-Popup.initialize({
-  bodyFixedOnDesktop: false
-});
-
-// Initialize popup on the div elements with 'data-popup-remote' attribute.
-Popup.initialize('div[data-popup-remote]');
-
-// Initialize popup on the elements with 'ex' class.
-// Disable some options for example.
-Popup.initialize('.ex', {
-  closeOnBgClick: false,
+// initialize with options
+$('button').popup({
   closeOnEsc: false
 });
+```
 
-// Initialize popup on the elements with 'ex' class.
-// jQuery way.
-$('.ex').popup();
+### Initialization with webpack's "import"
 
-// Initialize popup on the elements with 'remotePopup' class.
-// Add remote data source for example.
-$('.remotePopup').popup({
-  remote: {
-    url: 'ajax/example.json'
-  }
-});
+```javascript
+// import popup module
+import Popup from 'vintage-popup';
+
+// fix jQuery conflict (once)
+Popup.expose($);
+
+// use it!
+$('button').popup();
 ```
 
 ## Examples
@@ -100,7 +90,7 @@ $('.remotePopup').popup({
 ## Default popup
 
 ```html
-<!-- Button trigger modal -->
+<!-- Button that triggers modal -->
 <button type="button" data-popup-target="example">
   Default popup
 </button>
@@ -120,7 +110,7 @@ $('.remotePopup').popup({
 ## Popup with remote data source
 
 ```html
-<!-- Button trigger modal -->
+<!-- Button that triggers modal -->
 <button type="button" data-popup-target="exampleRemote" data-popup-remote="/path/example.json">
   Remote popup
 </button>
@@ -156,14 +146,6 @@ Type: `Boolean`
 Default: `true`
 
 If true, closes the popup by clicking anywhere outside it.
-
-### bodyFixedOnDesktop
-
-Type: `Boolean`
-
-Default: `true`
-
-If true, sets position: fixed to the body on desktop.
 
 ### closeOnEsc
 
@@ -346,35 +328,41 @@ AJAX 'error' callback.
 
 ## Methods
 
-### Non-static
+### Instance method
 
 ```javascript
 // Initialize first
-$('.popupButton').popup({
+$('.buttonToTriggerPopup').popup({
   targetPopupId: 'examplePopup'
 });
 
 // Get access to popup's instance
 var popupInstance = $('[data-popup-id="examplePopup"]').data('popup');
 
-// Use methods
-
 // Open popup
 popupInstance.open();
-
-// With remote data
-popupInstance.open(ajaxResponse);
 
 // Close popup
 popupInstance.close();
 
 // Kill popup instance
 popupInstance.kill();
+
+// Open with remote data
+popupInstance.open(ajaxResponse);
 ```
 
-### Static
+### Static methods
 
 ```javascript
+/**
+ * Close all popups.
+ *
+ * @static
+ * @param {String} [openedClassName='opened']
+ */
+Popup.closeAllPopups(openedClassName);
+
 /**
  * Kill specified popup.
  *
@@ -382,23 +370,6 @@ popupInstance.kill();
  * @param {String|jQuery} popup
  */
 Popup.kill(popup);
-
-/**
- * Close all popups.
- *
- * @static
- * @param {String} [openedClass='opened'] - opened popup class indicator
- */
-Popup.closeAllPopups(openedClass);
-
-/**
- * Initialize popup/popups with specified options.
- *
- * @static
- * @param {String} [selector='[data-popup-target]']
- * @param {Object} [options]
- */
-Popup.initialize(selector, options);
 
 /**
  * Expose popup module as jquery plugin.
@@ -417,4 +388,4 @@ Popup.initialize(selector, options);
 
 ## Versioning
 
-Current version is 0.1.41
+Current version is 0.1.5

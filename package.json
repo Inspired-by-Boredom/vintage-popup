@@ -1,6 +1,6 @@
 {
   "name": "vintage-popup",
-  "version": "0.1.41",
+  "version": "0.1.5",
   "description": "Vintage popup window plugin",
   "main": "dist/vintage-popup.min.js",
   "directories": {
@@ -30,6 +30,6 @@
   },
   "homepage": "https://github.com/Vintage-web-production/vintage-popup#readme",
   "dependencies": {
-    "jquery": "^3.1.1"
+    "jquery": "^1.9.1"
   }
 }

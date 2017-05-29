@@ -1,7 +1,7 @@
 /**
  * Popup
  * ------------
- * Version : 0.1.3
+ * Version : 0.1.5
  * Website : vintage-web-production.github.io/vintage-popup
  * Repo    : github.com/Vintage-web-production/vintage-popup
  * Author  : Shapovalov Vitali
@@ -9,32 +9,15 @@
 
 ;(function () {
 
-  /**
-   * Helpers.
-   */
-  var $window = $(window);
-  var $document = $(document);
-  var $body = $('body');
-  var $htmlbody = $('html, body');
+  // helpers
+  var $window, $document, $body, $htmlBody;
   var closeOnResizeFlag = false, closeOnEscFlag = false;
-  var isDevice = function () {
-    return window.matchMedia('(max-width: ' + 1199 + 'px)').matches;
-  };
-  var booleanCheck = function (param, defaultParam) {
-    return typeof param === 'boolean' ? param : defaultParam
-  };
-  var refreshJqueryHelpers = function ($) {
-    $window = $(window);
-    $document = $(document);
-    $body = $('body');
-    $htmlbody = $('html, body');
-  };
 
   /**
    * Popup module.
    *
    * @param {jQuery} $button
-   * @param {Object} options
+   * @param {Object} [options]
    *
    * @param {String} [options.openedClass='opened'] - Class added to the popup when it's open.
    * @param {String} [options.openedBodyClass='popup-opened'] - Class added to the body when popup is open.
@@ -43,7 +26,6 @@
    *
    * @param {String} [options.eventsNameSpace='popup'] - jQuery events namespace.
    * @param {Boolean} [options.closeOnBgClick=true] - If true, closes the popup by clicking anywhere outside it.
-   * @param {Boolean} [options.bodyFixedOnDesktop=true] - If true, sets position: fixed to the body on desktop.
    * @param {Boolean} [options.closeOnEsc=true] - If true, closes the popup after pressing the ESC key.
    * @param {Boolean} [options.closeOnResize=false] - If true, closes the popup on window resize.
    * @param {Boolean} [options.openOnClick=true] - If true, opens popup on click.
@@ -67,39 +49,41 @@
       return new Popup($button, options)
     }
 
-    options = options || {};
+    // update helpers (with fixed jQuery version)
+    $window   = $(window);
+    $document = $(document);
+    $body     = $('body');
+    $htmlBody = $('html, body');
 
-    this.options = {
-      openedClass: options.openedClass || 'opened',
-      openedBodyClass: options.openedBodyClass || 'popup-opened',
-      closeBtnSelector: options.closeBtnSelector || '.popup__close',
-      targetPopupId: options.targetPopupId || $button.data('popup-target'),
+    // defaults extended with provided options
+    this.options = options = $.extend(true, {
+      openedClass      : 'opened',
+      openedBodyClass  : 'popup-opened',
+      closeBtnSelector : '.popup__close',
+      targetPopupId    : $button.data('popup-target'),
+      eventsNameSpace  : 'popup',
+      closeOnBgClick   : true,
+      closeOnEsc       : true,
+      closeOnResize    : false,
+      openOnClick      : true,
+      beforeOpen       : null,
+      afterOpen        : null,
+      beforeClose      : null,
+      afterClose       : null,
+      remote           : $button.data('popup-remote')
+    }, options);
 
-      eventsNameSpace: options.eventsNameSpace || 'popup',
-
-      closeOnBgClick: booleanCheck(options.closeOnBgClick, true),
-      bodyFixedOnDesktop: booleanCheck(options.bodyFixedOnDesktop, true),
-      closeOnEsc: booleanCheck(options.closeOnEsc, true),
-      closeOnResize: booleanCheck(options.closeOnResize, false),
-      openOnClick: booleanCheck(options.openOnClick, true),
-
-      beforeOpen: options.beforeOpen,
-      afterOpen: options.afterOpen,
-      beforeClose: options.beforeClose,
-      afterClose: options.afterClose,
-
-      remote: options.remote || $button.data('popup-remote')
-    };
-
+    // DOM elements
     this.$button = $button;
-    this.$popup = $('[data-popup-id="' + this.options.targetPopupId + '"]');
-    this.defaultEvents =
-      'click.' + this.options.eventsNameSpace + ' tap.' + this.options.eventsNameSpace;
-    this.remoteData = this.options.remote
-      ? $.extend(true, this.options.remote, { url: this.options.remote.url || $button.data('popup-remote') })
-      : this.options.remote;
+    this.$popup = $('[data-popup-id="' + options.targetPopupId + '"]');
 
-    // initialize popup
+    // extra data
+    this.defaultEvents = 'click.' + options.eventsNameSpace + ' tap.' + options.eventsNameSpace;
+    this.remoteData = options.remote
+      ? $.extend(true, options.remote, { url: options.remote.url || $button.data('popup-remote') })
+      : options.remote;
+
+    // activate popup
     this.activate();
   }
 
@@ -158,19 +142,18 @@
     // before open callback
     this.checkAndRunCallback(this.options.beforeOpen);
 
+    // save scroll top cords
+    this.scrollTop = this.prevPopupScrollTop || $window.scrollTop();
+
+    // save scrollTop to data set
+    this.$popup.data('popupScrollTop', this.scrollTop);
+
     // add active class to body
-    if (this.options.bodyFixedOnDesktop || isDevice()) {
-      this.scrollTop = this.prevPopupScrollTop || $window.scrollTop();
+    $body
+      .css('top', -this.scrollTop)
+      .addClass(this.options.openedBodyClass);
 
-      // save scrollTop to data set
-      this.$popup.data('popupScrollTop', this.scrollTop);
-
-      $body
-        .css('top', -this.scrollTop)
-        .addClass(this.options.openedBodyClass);
-    }
-
-    // add active active class to popup
+    // add active class to popup
     this.$popup.addClass(this.options.openedClass);
 
     // after open callback
@@ -195,7 +178,7 @@
         .removeAttr('style')
         .removeClass(this.options.openedBodyClass);
 
-      $htmlbody
+      $htmlBody
         .scrollTop(this.$popup.data('popupScrollTop'));
 
       this.prevScrollTop ? this.prevScrollTop = false : null;
@@ -292,7 +275,7 @@
 
     if (!closeOnResizeFlag) {
       $window.on(events, function () {
-        if (!isDevice() && $body.hasClass(_this.options.openedBodyClass)) {
+        if ($body.hasClass(_this.options.openedBodyClass)) {
           Popup.closeAllPopups(_this.options.openedClass);
         }
       });
@@ -438,33 +421,8 @@
   };
 
   /**
-   * Initialize all popups.
-   *
-   * @static
-   * @param {String} [selector='[data-popup-target]']
-   * @param {Object} [options]
-   * @returns {jQuery}
-   */
-  Popup.initialize = function (selector, options) {
-    var defaultSelector = '[data-popup-target]';
-
-    selector = selector || defaultSelector;
-
-    var isString = typeof selector === 'string';
-    var isObject = typeof selector === 'object';
-    var isJQuery =
-      selector instanceof jQuery || isObject && selector.selector;
-
-    if (!isString && !isJQuery && isObject) {
-      options = selector;
-      selector = defaultSelector;
-    }
-
-    return $(selector).popup(options);
-  };
-
-  /**
    * Expose popup module as jquery plugin.
+   * (jquery-webpack conflict fix)
    *
    * @static
    * @param {jQuery} jQuery
@@ -480,9 +438,6 @@
         new Popup($this, options);
       });
     };
-
-    // refresh jquery helpers
-    refreshJqueryHelpers($);
   };
 
   /**
