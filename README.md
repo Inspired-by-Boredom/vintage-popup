@@ -10,6 +10,7 @@ Vintage popup window plugin. Check out [demo](https://vintage-web-production.git
 * [Options](#options)
 * [Methods](#methods)
 * [Requirement](#requirement)
+* [Versioning](#versioning)
 
 ## Installation
 
@@ -384,4 +385,4 @@ Popup.kill(popup);
 
 ## Versioning
 
-Current version is 0.1.61
+Current version is 0.1.62

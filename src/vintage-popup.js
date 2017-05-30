@@ -1,7 +1,7 @@
 /**
  * Popup
  * ------------
- * Version : 0.1.61
+ * Version : 0.1.62
  * Website : vintage-web-production.github.io/vintage-popup
  * Repo    : github.com/Vintage-web-production/vintage-popup
  * Author  : Shapovalov Vitali
