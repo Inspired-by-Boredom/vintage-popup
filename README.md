@@ -262,9 +262,9 @@ Fires when popup closed.
 
 ### remote
 
-Type: `Object|Boolean|String`
+Type: `Object`
 
-Default: `Button's ['data-popup-remote'] value or false`
+Default: `Object`
 
 Example:
 ```javascript
@@ -278,13 +278,13 @@ $('.popupButton').popup({
 });
 ```
 
-Popup remote settings (or just AJAX request url).
+Popup remote settings.
 
 ### remote.url
 
 Type: `String`
 
-Default: `n/a`
+Default: `Button's ['data-popup-remote'] value or undefined`
 
 AJAX url.
 
@@ -331,24 +331,20 @@ AJAX 'error' callback.
 ### Instance method
 
 ```javascript
-// Initialize first
-$('.buttonToTriggerPopup').popup({
-  targetPopupId: 'examplePopup'
-});
+// initialize and get access to popup's instance
+// (if inited on multiple jQuery objects returns an array of instances)
+var popupInstance = $('button').popup();
 
-// Get access to popup's instance
-var popupInstance = $('[data-popup-id="examplePopup"]').data('popup');
-
-// Open popup
+// open popup
 popupInstance.open();
 
-// Close popup
+// close popup
 popupInstance.close();
 
-// Kill popup instance
+// kill popup instance
 popupInstance.kill();
 
-// Open with remote data
+// open with remote data
 popupInstance.open(ajaxResponse);
 ```
 
@@ -388,4 +384,4 @@ Popup.kill(popup);
 
 ## Versioning
 
-Current version is 0.1.5
+Current version is 0.1.6

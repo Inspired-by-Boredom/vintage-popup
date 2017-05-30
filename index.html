@@ -36,7 +36,7 @@
                 <span>JAVASCRIPT MODAL WINDOW FOR EVERY BROWSER*</span>
                 <div class="btn-block">
                     <a href="https://github.com/Vintage-web-production/vintage-popup#vintage-popup" target="_blank" class="btn">guide</a>
-                    <div class="btn" data-popup-target="demoPopup">demo</div>
+                    <div id="popupTrigger" class="btn" data-popup-target="demoPopup">demo</div>
                     <a href="https://www.npmjs.com/package/vintage-popup" target="_blank" class="btn">npm</a>
                 </div>
                 <p>*"Every browser" being IE 9+, Firefox 22+, Chrome 5+, Safari 6+, Opera 25+,
@@ -64,7 +64,7 @@
 <script src="dist/vintage-popup.min.js"></script>
 
 <!-- Initialize popup -->
-<script>$('.btn').popup();</script>
+<script>$('#popupTrigger').popup();</script>
 </body>
 
 </html>

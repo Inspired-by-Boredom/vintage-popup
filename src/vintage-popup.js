@@ -1,7 +1,7 @@
 /**
  * Popup
  * ------------
- * Version : 0.1.5
+ * Version : 0.1.6
  * Website : vintage-web-production.github.io/vintage-popup
  * Repo    : github.com/Vintage-web-production/vintage-popup
  * Author  : Shapovalov Vitali
@@ -41,6 +41,8 @@
    * @param {Function} [options.remote.onError]
    * @param {Function} [options.remote.onComplete]
    * @param {*} [options.remote.data]
+   *
+   * @return {Popup}
    */
   function Popup ($button, options) {
 
@@ -70,21 +72,21 @@
       afterOpen        : null,
       beforeClose      : null,
       afterClose       : null,
-      remote           : $button.data('popup-remote')
+      remote           : { url: $button.data('popup-remote') },
     }, options);
 
     // DOM elements
     this.$button = $button;
     this.$popup = $('[data-popup-id="' + options.targetPopupId + '"]');
 
-    // extra data
+    // default events with namespaces
     this.defaultEvents = 'click.' + options.eventsNameSpace + ' tap.' + options.eventsNameSpace;
-    this.remoteData = options.remote
-      ? $.extend(true, options.remote, { url: options.remote.url || $button.data('popup-remote') })
-      : options.remote;
 
     // activate popup
     this.activate();
+
+    // return popup instance (give access to instance methods)
+    return this;
   }
 
   /**
@@ -239,18 +241,20 @@
       _this.checkAndCloseAllPopups();
 
       // remote data
-      if (_this.remoteData) {
-        var remote = _this.remoteData;
+      if (_this.options.remote.url) {
+        var remote = _this.options.remote;
 
         $.ajax({
-          cache: 'false',
-          method: 'get',
-          dataType: 'json',
           url: remote.url,
+          method: 'get',
+          cache: 'false',
+          dataType: 'json',
           data: remote.data,
           beforeSend: remote.onBeforeSend,
+          success: function (response) {
+            _this.open(response);
+          },
           complete: remote.onComplete,
-          success: _this.open.bind(_this),
           error: remote.onError
         });
 
@@ -433,10 +437,14 @@
 
     // refresh jquery plugin
     $.fn.popup = function (options) {
-      return this.each(function () {
+      var instances = [];
+
+      this.each(function () {
         var $this = $(this);
-        new Popup($this, options);
+        instances.push(new Popup($this, options));
       });
+
+      return instances.length === 1 ? instances[0] : instances;
     };
   };
 
