@@ -7,7 +7,7 @@
     "example": "example"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp default"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
     "jquery plugin",
     "jquery modal"
   ],
-  "author": "Vintage",
+  "author": "Vitali Shapovalov <shapovalov.vitali.v@gmail.com>, Vintage web production <vintage.com.ua>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Vintage-web-production/vintage-popup/issues"
@@ -31,5 +31,11 @@
   "homepage": "https://github.com/Vintage-web-production/vintage-popup#readme",
   "dependencies": {
     "jquery": "^1.9.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-clean-css": "^2.0.8",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0"
   }
 }
