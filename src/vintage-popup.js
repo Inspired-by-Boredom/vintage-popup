@@ -177,7 +177,7 @@
     // remove active class from body
     if (!hasOpenedPopups) {
       $body
-        .removeAttr('style')
+        .css({ top: '' })
         .removeClass(this.options.openedBodyClass);
 
       $htmlBody
