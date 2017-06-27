@@ -183,7 +183,7 @@ Padding depends on the width of the scrollbar.
 
 ### lockScreenEl
 
-Type: `jQuery | HTML`
+Type: `jQuery|HTML`
 
 Default: `document.body`
 
