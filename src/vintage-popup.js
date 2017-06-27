@@ -1,7 +1,7 @@
 /**
  * Popup
  * ------------
- * Version : 0.1.62
+ * Version : 0.1.7
  * Website : vintage-web-production.github.io/vintage-popup
  * Repo    : github.com/Vintage-web-production/vintage-popup
  * Author  : Shapovalov Vitali
@@ -9,9 +9,31 @@
 
 ;(function () {
 
-  // helpers
+  /**
+   * DOM elements.
+   *
+   * @private
+   * @type {jQuery}
+   */
   var $window, $document, $body, $htmlBody;
+
+
+  /**
+   * Popup flags.
+   *
+   * @private
+   * @type {boolean}
+   */
   var closeOnResizeFlag = false, closeOnEscFlag = false;
+
+  /**
+   * Detect iOS device.
+   *
+   * @private
+   * @const
+   * @type {Boolean}
+   */
+  var isIos = /iPad|iPhone|iPod/.test(navigator.platform);
 
   /**
    * Popup module.
@@ -29,6 +51,7 @@
    * @param {Boolean} [options.closeOnEsc=true] - If true, closes the popup after pressing the ESC key.
    * @param {Boolean} [options.closeOnResize=false] - If true, closes the popup on window resize.
    * @param {Boolean} [options.openOnClick=true] - If true, opens popup on click.
+   * @param {Boolean} [options.lockScreen=true] - If true, add padding right according to the width of the scrollbar.
    *
    * @param {Function} [options.beforeOpen]
    * @param {Function} [options.afterOpen]
@@ -64,6 +87,7 @@
       closeBtnSelector : '.popup__close',
       targetPopupId    : $button.data('popup-target'),
       eventsNameSpace  : 'popup',
+      lockScreen       : true,
       closeOnBgClick   : true,
       closeOnEsc       : true,
       closeOnResize    : false,
@@ -88,6 +112,69 @@
     // return popup instance (give access to instance methods)
     return this;
   }
+
+  /**
+   * Returns scrollbar width.
+   *
+   * @return {number}
+   */
+  Popup.getScrollbarWidth = function () {
+    // no scrollbar found (width = 0)
+    if ($document.height() <= $window.height()) return 0;
+
+    var outer = document.createElement('div');
+    var inner = document.createElement('div');
+    var widthNoScroll;
+    var widthWithScroll;
+
+    outer.style.visibility = 'hidden';
+    outer.style.width = '100px';
+    document.body.appendChild(outer);
+
+    widthNoScroll = outer.offsetWidth;
+
+    // force scrollbars
+    outer.style.overflow = 'scroll';
+
+    // add inner div
+    inner.style.width = '100%';
+    outer.appendChild(inner);
+
+    widthWithScroll = inner.offsetWidth;
+
+    // remove divs
+    outer.parentNode.removeChild(outer);
+
+    return widthNoScroll - widthWithScroll;
+  };
+
+  /**
+   * Locks the screen width (replace scrollbar with appropriate padding).
+   */
+  Popup.lockScreen = function () {
+    // do nothing when iOs detected
+    if (isIos) return;
+
+    var $body = $(document.body);
+    var paddingRight =
+      parseInt($body.css('padding-right'), 10) + Popup.getScrollbarWidth();
+
+    $body.css('padding-right', paddingRight + 'px');
+  };
+
+  /**
+   * Unlocks the screen (bring scrollbar back).
+   */
+  Popup.unlockScreen = function () {
+    // do nothing when iOs detected
+    if (isIos) return;
+
+    var $body = $(document.body);
+    var paddingRight =
+      parseInt($body.css('padding-right'), 10) - Popup.getScrollbarWidth();
+
+    $body.css('padding-right', paddingRight + 'px');
+  };
 
   /**
    * Find and close all opened popups.
@@ -150,6 +237,9 @@
     // save scrollTop to data set
     this.$popup.data('popupScrollTop', this.scrollTop);
 
+    // lock the screen
+    if (this.options.lockScreen) Popup.lockScreen();
+
     // add active class to body
     $body
       .css('top', -this.scrollTop)
@@ -176,6 +266,10 @@
 
     // remove active class from body
     if (!hasOpenedPopups) {
+
+      // unlock the screen
+      if (this.options.lockScreen) Popup.unlockScreen();
+
       $body
         .css({ top: '' })
         .removeClass(this.options.openedBodyClass);

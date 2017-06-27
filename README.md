@@ -180,6 +180,14 @@ Default: `'popup'`
 
 Attached jQuery events namespace.
 
+### lockScreen
+
+Type: `Boolean`
+
+Default: `true`
+
+Add 'padding-right' to 'body' according to the width of the scrollbar.
+
 ### targetPopupId
 
 Type: `String`
@@ -385,4 +393,4 @@ Popup.kill(popup);
 
 ## Versioning
 
-Current version is 0.1.63
+Current version is 0.1.7
