@@ -1,13 +1,30 @@
 /**
  * Popup
  * ------------
- * Version : 0.1.7
+ * Version : 0.1.71
  * Website : vintage-web-production.github.io/vintage-popup
  * Repo    : github.com/Vintage-web-production/vintage-popup
  * Author  : Shapovalov Vitali
  */
 
 ;(function () {
+
+  /**
+   * Current Popup module version.
+   *
+   * @constant
+   * @type {String}
+   */
+  var VERSION = '0.1.71';
+
+  /**
+   * Detect iOS device.
+   *
+   * @private
+   * @const
+   * @type {Boolean}
+   */
+  var IS_IOS = /iPad|iPhone|iPod/.test(navigator.platform);
 
   /**
    * DOM elements.
@@ -17,7 +34,6 @@
    */
   var $window, $document, $body, $htmlBody;
 
-
   /**
    * Popup flags.
    *
@@ -26,14 +42,6 @@
    */
   var closeOnResizeFlag = false, closeOnEscFlag = false;
 
-  /**
-   * Detect iOS device.
-   *
-   * @private
-   * @const
-   * @type {Boolean}
-   */
-  var isIos = /iPad|iPhone|iPod/.test(navigator.platform);
 
   /**
    * Popup module.
@@ -114,6 +122,13 @@
   }
 
   /**
+   * Show popup version.
+   *
+   * @type {String}
+   */
+  Popup.version = VERSION;
+
+  /**
    * Returns scrollbar width.
    *
    * @return {number}
@@ -153,7 +168,7 @@
    */
   Popup.lockScreen = function () {
     // do nothing when iOs detected
-    if (isIos) return;
+    if (IS_IOS) return;
 
     var $body = $(document.body);
     var paddingRight =
@@ -167,7 +182,7 @@
    */
   Popup.unlockScreen = function () {
     // do nothing when iOs detected
-    if (isIos) return;
+    if (IS_IOS) return;
 
     var $body = $(document.body);
     var paddingRight =
