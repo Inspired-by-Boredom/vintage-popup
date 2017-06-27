@@ -172,6 +172,23 @@ Default: `true`
 
 Open popup when clicking on element.
 
+### lockScreen
+
+Type: `Boolean`
+
+Default: `true`
+
+Add 'padding-right' to element specified by 'lockScreenEl' option.
+Padding depends on the width of the scrollbar.
+
+### lockScreenEl
+
+Type: `jQuery | HTML`
+
+Default: `document.body`
+
+Element to add padding.
+
 ### eventsNameSpace
 
 Type: `String`
@@ -179,14 +196,6 @@ Type: `String`
 Default: `'popup'`
 
 Attached jQuery events namespace.
-
-### lockScreen
-
-Type: `Boolean`
-
-Default: `true`
-
-Add 'padding-right' to 'body' according to the width of the scrollbar.
 
 ### targetPopupId
 
@@ -393,4 +402,4 @@ Popup.kill(popup);
 
 ## Versioning
 
-Current version is 0.1.71
+Current version is 0.1.72

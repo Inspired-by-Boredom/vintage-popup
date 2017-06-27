@@ -1,7 +1,7 @@
 /**
  * Popup
  * ------------
- * Version : 0.1.71
+ * Version : 0.1.72
  * Website : vintage-web-production.github.io/vintage-popup
  * Repo    : github.com/Vintage-web-production/vintage-popup
  * Author  : Shapovalov Vitali
@@ -15,7 +15,7 @@
    * @constant
    * @type {String}
    */
-  var VERSION = '0.1.71';
+  var VERSION = '0.1.72';
 
   /**
    * Detect iOS device.
@@ -60,6 +60,7 @@
    * @param {Boolean} [options.closeOnResize=false] - If true, closes the popup on window resize.
    * @param {Boolean} [options.openOnClick=true] - If true, opens popup on click.
    * @param {Boolean} [options.lockScreen=true] - If true, add padding right according to the width of the scrollbar.
+   * @param {jQuery|HTML} [options.lockScreenEl=document.body] -
    *
    * @param {Function} [options.beforeOpen]
    * @param {Function} [options.afterOpen]
@@ -96,6 +97,7 @@
       targetPopupId    : $button.data('popup-target'),
       eventsNameSpace  : 'popup',
       lockScreen       : true,
+      lockScreenEl     : document.body,
       closeOnBgClick   : true,
       closeOnEsc       : true,
       closeOnResize    : false,
@@ -126,7 +128,7 @@
    *
    * @type {String}
    */
-  Popup.version = VERSION;
+  Popup.VERSION = VERSION;
 
   /**
    * Returns scrollbar width.
@@ -165,30 +167,34 @@
 
   /**
    * Locks the screen width (replace scrollbar with appropriate padding).
+   *
+   * @param {HTML|jQuery} element
    */
-  Popup.lockScreen = function () {
+  Popup.lockScreen = function (element) {
     // do nothing when iOs detected
     if (IS_IOS) return;
 
-    var $body = $(document.body);
+    var $element = $(element);
     var paddingRight =
-      parseInt($body.css('padding-right'), 10) + Popup.getScrollbarWidth();
+      parseInt($element.css('padding-right'), 10) + Popup.getScrollbarWidth();
 
-    $body.css('padding-right', paddingRight + 'px');
+    $element.css('padding-right', paddingRight + 'px');
   };
 
   /**
    * Unlocks the screen (bring scrollbar back).
+   *
+   * @param {HTML|jQuery} element
    */
-  Popup.unlockScreen = function () {
+  Popup.unlockScreen = function (element) {
     // do nothing when iOs detected
     if (IS_IOS) return;
 
-    var $body = $(document.body);
+    var $element = $(element);
     var paddingRight =
-      parseInt($body.css('padding-right'), 10) - Popup.getScrollbarWidth();
+      parseInt($element.css('padding-right'), 10) - Popup.getScrollbarWidth();
 
-    $body.css('padding-right', paddingRight + 'px');
+    $element.css('padding-right', paddingRight + 'px');
   };
 
   /**
@@ -253,7 +259,7 @@
     this.$popup.data('popupScrollTop', this.scrollTop);
 
     // lock the screen
-    if (this.options.lockScreen) Popup.lockScreen();
+    if (this.options.lockScreen) Popup.lockScreen(this.options.lockScreenEl);
 
     // add active class to body
     $body
@@ -283,7 +289,7 @@
     if (!hasOpenedPopups) {
 
       // unlock the screen
-      if (this.options.lockScreen) Popup.unlockScreen();
+      if (this.options.lockScreen) Popup.unlockScreen(this.options.lockScreenEl);
 
       $body
         .css({ top: '' })
