@@ -189,6 +189,14 @@ Default: `document.body`
 
 Element to add padding.
 
+### preventDefault
+
+Type: `Boolean`
+
+Default: `true`
+
+Prevent default action on button click.
+
 ### eventsNameSpace
 
 Type: `String`
@@ -402,4 +410,4 @@ Popup.kill(popup);
 
 ## Versioning
 
-Current version is 0.1.72
+Current version is 0.1.73

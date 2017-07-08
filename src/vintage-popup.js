@@ -60,7 +60,8 @@
    * @param {Boolean} [options.closeOnResize=false] - If true, closes the popup on window resize.
    * @param {Boolean} [options.openOnClick=true] - If true, opens popup on click.
    * @param {Boolean} [options.lockScreen=true] - If true, add padding right according to the width of the scrollbar.
-   * @param {jQuery|HTML} [options.lockScreenEl=document.body] -
+   * @param {jQuery|HTML} [options.lockScreenEl=document.body] - Element to add padding.
+   * @param {Boolean} [options.preventDefault=false] - Prevent default action on button click.
    *
    * @param {Function} [options.beforeOpen]
    * @param {Function} [options.afterOpen]
@@ -98,6 +99,7 @@
       eventsNameSpace  : 'popup',
       lockScreen       : true,
       lockScreenEl     : document.body,
+      preventDefault   : false,
       closeOnBgClick   : true,
       closeOnEsc       : true,
       closeOnResize    : false,
@@ -223,8 +225,10 @@
    * @returns {Popup}
    */
   Popup.prototype.checkAndRunCallback = function (callback) {
+
     if (typeof callback === 'function') {
       callback.call(null, this);
+
     } else if (callback != undefined) {
       console.warn('Callback should be a function.')
     }
@@ -351,7 +355,11 @@
   Popup.prototype.registerOpenOnClick = function () {
     var _this = this;
 
-    this.$button.unbind(this.defaultEvents).on(this.defaultEvents, function () {
+    this.$button.unbind(this.defaultEvents).on(this.defaultEvents, function (e) {
+
+      // prevent default action if set
+      if (_this.options.preventDefault) e.preventDefault();
+
       // find opened popups and close them
       _this.checkAndCloseAllPopups();
 
