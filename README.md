@@ -193,7 +193,7 @@ Element to add padding.
 
 Type: `Boolean`
 
-Default: `true`
+Default: `false`
 
 Prevent default action on button click.
 
@@ -410,4 +410,4 @@ Popup.kill(popup);
 
 ## Versioning
 
-Current version is 0.1.73
+Current version is 0.1.74

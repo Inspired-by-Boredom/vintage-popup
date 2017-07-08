@@ -15,7 +15,7 @@
    * @constant
    * @type {String}
    */
-  var VERSION = '0.1.72';
+  var VERSION = '0.1.74';
 
   /**
    * Detect iOS device.
