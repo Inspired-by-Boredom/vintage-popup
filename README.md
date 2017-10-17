@@ -91,7 +91,7 @@ $('button').popup();
 ### Default popup
 
 ```html
-<!-- Button that triggers modal -->
+<!-- Button which triggers modal -->
 <button type="button" data-popup-target="example">
   Default popup
 </button>
@@ -137,6 +137,15 @@ $('button').popup();
   ]
 }
 ```
+
+## Themes
+
+Currently, there are 2 animation themes available:
+
+* Default (popup-default-theme)
+* Material (popup-material-theme)
+
+To use them, simply import the corresponding css file
 
 ## Options
 
@@ -410,4 +419,4 @@ Popup.kill(popup);
 
 ## Versioning
 
-Current version is 0.1.74
+Current version is 0.1.75

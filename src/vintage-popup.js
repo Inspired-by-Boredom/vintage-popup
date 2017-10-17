@@ -1,7 +1,7 @@
 /**
  * Popup
  * ------------
- * Version : 0.1.72
+ * Version : 0.1.75
  * Website : vintage-web-production.github.io/vintage-popup
  * Repo    : github.com/Vintage-web-production/vintage-popup
  * Author  : Shapovalov Vitali
@@ -12,16 +12,17 @@
   /**
    * Current Popup module version.
    *
+   * @protected
    * @constant
    * @type {String}
    */
-  var VERSION = '0.1.74';
+  var VERSION = '0.1.75';
 
   /**
    * Detect iOS device.
    *
-   * @private
-   * @const
+   * @protected
+   * @constant
    * @type {Boolean}
    */
   var IS_IOS = /iPad|iPhone|iPod/.test(navigator.platform);
@@ -29,7 +30,7 @@
   /**
    * DOM elements.
    *
-   * @private
+   * @protected
    * @type {jQuery}
    */
   var $window, $document, $body, $htmlBody;
@@ -37,8 +38,8 @@
   /**
    * Popup flags.
    *
-   * @private
-   * @type {boolean}
+   * @protected
+   * @type {Boolean}
    */
   var closeOnResizeFlag = false, closeOnEscFlag = false;
 
@@ -60,7 +61,7 @@
    * @param {Boolean} [options.closeOnResize=false] - If true, closes the popup on window resize.
    * @param {Boolean} [options.openOnClick=true] - If true, opens popup on click.
    * @param {Boolean} [options.lockScreen=true] - If true, add padding right according to the width of the scrollbar.
-   * @param {jQuery|HTML} [options.lockScreenEl=document.body] - Element to add padding.
+   * @param {jQuery|HTMLElement} [options.lockScreenEl=document.body] - Element to add padding.
    * @param {Boolean} [options.preventDefault=false] - Prevent default action on button click.
    *
    * @param {Function} [options.beforeOpen]
@@ -119,25 +120,20 @@
     this.defaultEvents = 'click.' + options.eventsNameSpace + ' tap.' + options.eventsNameSpace;
 
     // activate popup
-    this.activate();
+    this._activate();
 
     // return popup instance (give access to instance methods)
     return this;
   }
 
   /**
-   * Show popup version.
-   *
-   * @type {String}
-   */
-  Popup.VERSION = VERSION;
-
-  /**
    * Returns scrollbar width.
    *
-   * @return {number}
+   * @static
+   * @private
+   * @return {Number}
    */
-  Popup.getScrollbarWidth = function () {
+  Popup._getScrollbarWidth = function () {
     // no scrollbar found (width = 0)
     if ($document.height() <= $window.height()) return 0;
 
@@ -170,15 +166,17 @@
   /**
    * Locks the screen width (replace scrollbar with appropriate padding).
    *
-   * @param {HTML|jQuery} element
+   * @static
+   * @private
+   * @param {HTMLElement|jQuery} element
    */
-  Popup.lockScreen = function (element) {
+  Popup._lockScreen = function (element) {
     // do nothing when iOs detected
     if (IS_IOS) return;
 
     var $element = $(element);
     var paddingRight =
-      parseInt($element.css('padding-right'), 10) + Popup.getScrollbarWidth();
+      parseInt($element.css('padding-right'), 10) + Popup._getScrollbarWidth();
 
     $element.css('padding-right', paddingRight + 'px');
   };
@@ -186,15 +184,17 @@
   /**
    * Unlocks the screen (bring scrollbar back).
    *
-   * @param {HTML|jQuery} element
+   * @static
+   * @private
+   * @param {HTMLElement|jQuery} element
    */
-  Popup.unlockScreen = function (element) {
+  Popup._unlockScreen = function (element) {
     // do nothing when iOs detected
     if (IS_IOS) return;
 
     var $element = $(element);
     var paddingRight =
-      parseInt($element.css('padding-right'), 10) - Popup.getScrollbarWidth();
+      parseInt($element.css('padding-right'), 10) - Popup._getScrollbarWidth();
 
     $element.css('padding-right', paddingRight + 'px');
   };
@@ -202,9 +202,10 @@
   /**
    * Find and close all opened popups.
    *
+   * @private
    * @returns {Popup}
    */
-  Popup.prototype.checkAndCloseAllPopups = function () {
+  Popup.prototype._checkAndCloseAllPopups = function () {
     var $popups = $body.find('[data-popup-id]');
     var $openedPopup = $popups.filter('.' + this.options.openedClass);
 
@@ -221,95 +222,17 @@
   /**
    * Check existence and run callback.
    *
-   * @param {*} callback
+   * @private
+   * @param {Function} callback
    * @returns {Popup}
    */
-  Popup.prototype.checkAndRunCallback = function (callback) {
-
+  Popup.prototype._checkAndRunCallback = function (callback) {
     if (typeof callback === 'function') {
       callback.call(null, this);
 
-    } else if (callback != undefined) {
-      console.warn('Callback should be a function.')
+    } else if (callback !== null) {
+      console.warn('Popup: callback should be a function.')
     }
-
-    return this;
-  };
-
-  /**
-   * Open popup.
-   *
-   * @param {Object} remoteData - ajax request 'response' object
-   * @returns {Popup}
-   */
-  Popup.prototype.open = function (remoteData) {
-
-    // do stuff with remote data before popup open
-    if (remoteData) {
-      // actions with response
-      this.actionsWithRemoteData(remoteData);
-
-      // register 'close' button event
-      this.registerCloseBtnClick();
-    }
-
-    // before open callback
-    this.checkAndRunCallback(this.options.beforeOpen);
-
-    // save scroll top cords
-    this.scrollTop = this.prevPopupScrollTop || $window.scrollTop();
-
-    // save scrollTop to data set
-    this.$popup.data('popupScrollTop', this.scrollTop);
-
-    // lock the screen
-    if (this.options.lockScreen) Popup.lockScreen(this.options.lockScreenEl);
-
-    // add active class to body
-    $body
-      .css('top', -this.scrollTop)
-      .addClass(this.options.openedBodyClass);
-
-    // add active class to popup
-    this.$popup.addClass(this.options.openedClass);
-
-    // after open callback
-    this.checkAndRunCallback(this.options.afterOpen);
-
-    return this;
-  };
-
-  /**
-   * Close popup.
-   *
-   * @param {Boolean} hasOpenedPopups - close popup without changing body styles
-   * @returns {Popup}
-   */
-  Popup.prototype.close = function (hasOpenedPopups) {
-    // before close callback
-    this.checkAndRunCallback(this.options.beforeClose);
-
-    // remove active class from body
-    if (!hasOpenedPopups) {
-
-      // unlock the screen
-      if (this.options.lockScreen) Popup.unlockScreen(this.options.lockScreenEl);
-
-      $body
-        .css({ top: '' })
-        .removeClass(this.options.openedBodyClass);
-
-      $htmlBody
-        .scrollTop(this.$popup.data('popupScrollTop'));
-
-      this.prevScrollTop ? this.prevScrollTop = false : null;
-    }
-
-    // remove active class from popup
-    this.$popup.removeClass(this.options.openedClass);
-
-    // after close callback
-    this.checkAndRunCallback(this.options.afterClose);
 
     return this;
   };
@@ -317,10 +240,11 @@
   /**
    * Actions with remote data.
    *
+   * @private
    * @param {Object} remoteData
    * @returns {Popup}
    */
-  Popup.prototype.actionsWithRemoteData = function (remoteData) {
+  Popup.prototype._actionsWithRemoteData = function (remoteData) {
     if (remoteData.replaces instanceof Array) {
       for (var i = 0, ilen = remoteData.replaces.length; i < ilen; i++) {
         $(remoteData.replaces[i].what).replaceWith(remoteData.replaces[i].data);
@@ -352,7 +276,7 @@
    *
    * @returns {Popup}
    */
-  Popup.prototype.registerOpenOnClick = function () {
+  Popup.prototype._registerOpenOnClick = function () {
     var _this = this;
 
     this.$button.unbind(this.defaultEvents).on(this.defaultEvents, function (e) {
@@ -361,7 +285,7 @@
       if (_this.options.preventDefault) e.preventDefault();
 
       // find opened popups and close them
-      _this.checkAndCloseAllPopups();
+      _this._checkAndCloseAllPopups();
 
       // remote data
       if (_this.options.remote.url) {
@@ -394,9 +318,10 @@
   /**
    * Close popup on window's resize.
    *
+   * @private
    * @returns {Popup}
    */
-  Popup.prototype.registerCloseOnResize = function () {
+  Popup.prototype._registerCloseOnResize = function () {
     var _this = this;
     var events = 'resize.' + this.options.eventsNameSpace;
 
@@ -416,9 +341,10 @@
   /**
    * Close popup on esc button click.
    *
+   * @private
    * @returns {Popup}
    */
-  Popup.prototype.registerCloseOnEsc = function () {
+  Popup.prototype._registerCloseOnEsc = function () {
     var _this = this;
     var events = 'keyup.' + this.options.eventsNameSpace;
 
@@ -438,9 +364,10 @@
   /**
    * Close popup on modal's background click.
    *
+   * @private
    * @returns {Popup}
    */
-  Popup.prototype.registerCloseOnBgClick = function () {
+  Popup.prototype._registerCloseOnBgClick = function () {
     var _this = this;
 
     _this.$popup.on(this.defaultEvents, function (event) {
@@ -453,13 +380,14 @@
   /**
    * Close popup on close button click.
    *
+   * @private
    * @returns {Popup}
    */
-  Popup.prototype.registerCloseBtnClick = function () {
+  Popup.prototype._registerCloseBtnClick = function () {
     var _this = this;
     var $closeButton = _this.$popup.find(this.options.closeBtnSelector);
 
-    if (!$closeButton.unbind || !$closeButton.on) {
+    if (!$closeButton || !$closeButton.unbind || !$closeButton.on) {
       console.warn('Close button was not found');
 
       return this;
@@ -475,42 +403,125 @@
   /**
    * Register all events.
    *
+   * @private
    * @returns {Popup}
    */
-  Popup.prototype.activate = function () {
+  Popup.prototype._activate = function () {
 
     // if popup was already activated
     if (this.$popup.data('popup')) {
       this.$popup.data('popup', this);
 
-      if (this.options.openOnClick) this.registerOpenOnClick();
+      if (this.options.openOnClick) this._registerOpenOnClick();
 
       return this;
     }
 
     // 'close' button
-    this.registerCloseBtnClick();
+    this._registerCloseBtnClick();
 
     // save Popup instance data
     this.$popup.data('popup', this);
 
     // close popup on 'Esc' click
-    if (this.options.closeOnEsc) this.registerCloseOnEsc();
+    if (this.options.closeOnEsc) this._registerCloseOnEsc();
 
     // close popup when clicked anywhere on the black background
-    if (this.options.closeOnBgClick) this.registerCloseOnBgClick();
+    if (this.options.closeOnBgClick) this._registerCloseOnBgClick();
 
     // close popup when the size of the browser window changes
-    if (this.options.closeOnResize) this.registerCloseOnResize();
+    if (this.options.closeOnResize) this._registerCloseOnResize();
 
     // open popup on click (button)
-    if (this.options.openOnClick) this.registerOpenOnClick();
+    if (this.options.openOnClick) this._registerOpenOnClick();
+
+    return this;
+  };
+
+  /**
+   * Open popup.
+   *
+   * @public
+   * @param {Object} remoteData - ajax request 'response' object
+   * @returns {Popup}
+   */
+  Popup.prototype.open = function (remoteData) {
+
+    // do stuff with remote data before popup open
+    if (remoteData) {
+      // actions with response
+      this._actionsWithRemoteData(remoteData);
+
+      // register 'close' button event
+      this._registerCloseBtnClick();
+    }
+
+    // before open callback
+    this._checkAndRunCallback(this.options.beforeOpen);
+
+    // save scroll top cords
+    this.scrollTop = this.prevPopupScrollTop || $window.scrollTop();
+
+    // save scrollTop to data set
+    this.$popup.data('popupScrollTop', this.scrollTop);
+
+    // lock the screen
+    if (this.options.lockScreen) Popup._lockScreen(this.options.lockScreenEl);
+
+    // add active class to body
+    $body
+      .css('top', -this.scrollTop)
+      .addClass(this.options.openedBodyClass);
+
+    // add active class to popup
+    this.$popup.addClass(this.options.openedClass);
+
+    // after open callback
+    this._checkAndRunCallback(this.options.afterOpen);
+
+    return this;
+  };
+
+  /**
+   * Close popup.
+   *
+   * @public
+   * @param {Boolean} hasOpenedPopups - close popup without changing body styles
+   * @returns {Popup}
+   */
+  Popup.prototype.close = function (hasOpenedPopups) {
+    // before close callback
+    this._checkAndRunCallback(this.options.beforeClose);
+
+    // remove active class from body
+    if (!hasOpenedPopups) {
+
+      // unlock the screen
+      if (this.options.lockScreen) Popup._unlockScreen(this.options.lockScreenEl);
+
+      $body
+        .css({ top: '' })
+        .removeClass(this.options.openedBodyClass);
+
+      $htmlBody
+        .scrollTop(this.$popup.data('popupScrollTop'));
+
+      this.prevScrollTop ? this.prevScrollTop = false : null;
+    }
+
+    // remove active class from popup
+    this.$popup.removeClass(this.options.openedClass);
+
+    // after close callback
+    this._checkAndRunCallback(this.options.afterClose);
 
     return this;
   };
 
   /**
    * Removes event listener from button and destroys associated data.
+   *
+   * @public
    */
   Popup.prototype.kill = function () {
     this.$button.unbind(this.defaultEvents);
@@ -518,9 +529,19 @@
   };
 
   /**
+   * Show popup version.
+   *
+   * @static
+   * @public
+   * @type {String}
+   */
+  Popup.VERSION = VERSION;
+
+  /**
    * Kill specified popup.
    *
    * @static
+   * @public
    * @param {String|jQuery} popup
    */
   Popup.kill = function (popup) {
@@ -533,6 +554,7 @@
    * Close all popups.
    *
    * @static
+   * @public
    * @param {String} [openedClass='opened'] - css class-indicator
    */
   Popup.closeAllPopups = function (openedClass) {
@@ -552,6 +574,7 @@
    * (jquery-webpack conflict fix)
    *
    * @static
+   * @public
    * @param {jQuery} jQuery
    */
   var exposePopup = Popup.expose = function (newJquery) {
