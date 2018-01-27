@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/Vintage-web-production/vintage-popup#readme",
   "dependencies": {
-    "jquery": "^1.9.1"
+    "jquery": "^3.0.0"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
