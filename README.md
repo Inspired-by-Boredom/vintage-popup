@@ -419,4 +419,4 @@ Popup.kill(popup);
 
 ## Versioning
 
-Current version is 0.1.75
+Current version is 0.1.8
