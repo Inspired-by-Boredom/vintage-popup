@@ -1,10 +1,10 @@
 /**
  * Popup
  * ------------
- * Version : 0.1.9
- * Website : vintage-web-production.github.io/vintage-popup
- * Repo    : github.com/Vintage-web-production/vintage-popup
- * Author  : Shapovalov Vitali
+ * Version : 0.1.10
+ * Website : https://inspired-by-boredom.github.io/vintage-popup/
+ * Repo    : https://github.com/Inspired-by-Boredom/vintage-popup
+ * Author  : Shapovalov Vitaliy
  */
 
 ;(function () {
@@ -16,7 +16,7 @@
    * @constant
    * @type {String}
    */
-  var VERSION = '0.1.9';
+  var VERSION = '0.1.10';
 
   /**
    * Detect iOS device.

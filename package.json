@@ -1,6 +1,6 @@
 {
   "name": "vintage-popup",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Vintage popup window plugin",
   "main": "dist/vintage-popup.min.js",
   "directories": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://inspired-by-boredom.github.io/vintage-popup.git"
+    "url": "git+https://github.com/Inspired-by-Boredom/vintage-popup.git"
   },
   "keywords": [
     "Vintage",
@@ -26,9 +26,9 @@
   "author": "Vitali Shapovalov <shapovalov.vitali.v@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://inspired-by-boredom.github.io/vintage-popup/issues"
+    "url": "https://github.com/Inspired-by-Boredom/vintage-popup/issues"
   },
-  "homepage": "https://inspired-by-boredom.github.io/vintage-popup#readme",
+  "homepage": "https://inspired-by-boredom.github.io/vintage-popup/",
   "dependencies": {
     "jquery": "^3.0.0"
   },
