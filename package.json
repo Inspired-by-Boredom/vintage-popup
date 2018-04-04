@@ -1,6 +1,6 @@
 {
   "name": "vintage-popup",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Vintage popup window plugin",
   "main": "dist/vintage-popup.min.js",
   "directories": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Vintage-web-production/vintage-popup.git"
+    "url": "git+https://inspired-by-boredom.github.io/vintage-popup.git"
   },
   "keywords": [
     "Vintage",
@@ -23,12 +23,12 @@
     "jquery plugin",
     "jquery modal"
   ],
-  "author": "Vitali Shapovalov <shapovalov.vitali.v@gmail.com>, Vintage web production <vintage.com.ua>",
+  "author": "Vitali Shapovalov <shapovalov.vitali.v@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Vintage-web-production/vintage-popup/issues"
+    "url": "https://inspired-by-boredom.github.io/vintage-popup/issues"
   },
-  "homepage": "https://github.com/Vintage-web-production/vintage-popup#readme",
+  "homepage": "https://inspired-by-boredom.github.io/vintage-popup#readme",
   "dependencies": {
     "jquery": "^3.0.0"
   },

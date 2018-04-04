@@ -1,7 +1,7 @@
 /**
  * Popup
  * ------------
- * Version : 0.1.75
+ * Version : 0.1.9
  * Website : vintage-web-production.github.io/vintage-popup
  * Repo    : github.com/Vintage-web-production/vintage-popup
  * Author  : Shapovalov Vitali
@@ -16,7 +16,7 @@
    * @constant
    * @type {String}
    */
-  var VERSION = '0.1.75';
+  var VERSION = '0.1.9';
 
   /**
    * Detect iOS device.
