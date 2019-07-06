@@ -3,6 +3,7 @@
   "version": "0.1.10",
   "description": "Vintage popup window plugin",
   "main": "dist/vintage-popup.min.js",
+  "types": "index.d.ts",
   "directories": {
     "example": "example"
   },
