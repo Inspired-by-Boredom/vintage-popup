@@ -1,6 +1,6 @@
 {
   "name": "vintage-popup",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "description": "Vintage popup window plugin",
   "main": "dist/vintage-popup.min.js",
   "types": "index.d.ts",
