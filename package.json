@@ -25,7 +25,7 @@
     "jquery modal"
   ],
   "author": "Vitali Shapovalov <shapovalov.vitali.v@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Inspired-by-Boredom/vintage-popup/issues"
   },
