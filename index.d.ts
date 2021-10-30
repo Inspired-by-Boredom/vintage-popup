@@ -42,4 +42,6 @@ declare type PopupStatic = {
     expose(jquery: jQuery): void;
 }
 
-export = PopupStatic;
+declare const popupStatic: PopupStatic;
+
+export = popupStatic;
