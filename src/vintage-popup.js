@@ -1,7 +1,7 @@
 /**
  * Popup
  * ------------
- * Version : 0.2.0
+ * Version : 0.2.2
  * Website : https://inspired-by-boredom.github.io/vintage-popup/
  * Repo    : https://github.com/Inspired-by-Boredom/vintage-popup
  * Author  : Shapovalov Vitaliy
@@ -16,7 +16,7 @@
    * @constant
    * @type {String}
    */
-  var VERSION = '0.2.0';
+  var VERSION = '0.2.2';
 
   /**
    * Detect iOS device.
